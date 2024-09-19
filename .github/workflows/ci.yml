@@ -14,42 +14,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-    - name: Install dependencies for React
-      run: |
-        cd front-end
-        npm install
+      - name: Install dependencies for React
+        run: |
+          cd front-end
+          npm install
 
-    - name: Run React tests
-      run: |
-        cd front-end
-        npm test -- --watchAll=false
+      - name: Run React tests
+        run: |
+          cd front-end
+          npm test -- --watchAll=false
 
   backend_test:
     name: Run Node/Express Tests
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-    - name: Install dependencies for Express
-      run: |
-        cd back-end
-        npm install
+      - name: Install dependencies for Express
+        run: |
+          cd back-end
+          npm install
 
-    - name: Run Node/Express tests
-      run: |
-        cd back-end
-        npm test
+      - name: Run Node/Express tests
+        run: |
+          cd back-end
+          npm test
