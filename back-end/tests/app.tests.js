@@ -1,5 +1,5 @@
 const request = require('supertest');
-const app = require('../back-end/app');
+const app = require('../app');
 
 describe('GET /api/endpoint', () => {
     it('should return a 200 status and a JSON response', async () => {
