@@ -1,0 +1,22 @@
+<%- include('./partials/header.ejs')%>  
+
+    <form id="crime-report-form">
+        <label for="name">Your Name:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="description">Crime Description:</label>
+        <textarea id="description" name="description" rows="5" required></textarea>
+
+        <label for="location">Location of Crime:</label>
+        <input type="text" id="location" name="location" required>
+
+        <button type="submit">Submit Report</button>
+    </form>
+
+    <%- include('./partials/footer.ejs')%>
+
+    // include scripting for getting form responses
+        
