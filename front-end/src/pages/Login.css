@@ -1,7 +1,7 @@
 .login-container {
     display: flex;
     height: 100vh;
-    background: linear-gradient(135deg, #d2ffff , #0694c6);
+
 }
 
 .login-form {
@@ -9,7 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background: linear-gradient(135deg, #d2ffff , #0694c6);
     border-radius: 8px;
     padding: 24px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -23,6 +23,8 @@
     align-items: center;
     flex-direction: column;
     text-align: center;
-    background-color: #3a3a85;
+    background-image: url('../../public/map.jpg');
+    background-size: cover;
+    background-position: center;
     color: white;
 }

@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import './Login.css';
+
 // change css to the pic
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [feedbackMessage, setFeedbackMessage] = useState('');
+    const [feedbackType, setFeedbackType] = useState('');
 
     const handleLogin = () => {
         // Handle login logic here (e.g., API call)
-        console.log('Logging in with', email, password);
+        if (email === 'user@example.com' && password === 'password') {
+            setFeedbackMessage('Login successful!');
+            setFeedbackType('success');
+        } else if (email === 'locked@example.com') {
+            // Simulate account lockout scenario
+            setFeedbackMessage('Your account is locked. Please contact support.');
+            setFeedbackType('error');
+        } else {
+            // Simulate incorrect credentials
+            setFeedbackMessage('Incorrect email or password.');
+            setFeedbackType('error');
+        }
     };
 
     return (
@@ -45,14 +59,35 @@ const Login = () => {
                     >
                         Login
                     </Button>
-                </Box>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            fullWidth
+                            onClick={() => console.log('Register button clicked')}
+                            style={{ marginTop: '16px' }}
+                            >
+                        Register
+                        </Button>
+                        {feedbackMessage && (
+                            <Typography
+                                variant="body2"
+                                style={{
+                                    color: feedbackType === 'success' ? 'green' : 'red',
+                                    marginTop: '16px',
+                                    textAlign: 'center'
+                                }}
+                            >
+                                {feedbackMessage}
+                            </Typography>
+                        )}
+                    </Box>
             </Container>
             </div>
             <div className="welcome-section">
-                <Typography variant="h3" color="white">
+                <Typography variant="h3" color="black">
                     Welcome to CLTAlert
                 </Typography>
-                <Typography variant="body1" color="white" style={{ marginTop: '16px' }}>
+                <Typography variant="body1" color="black" style={{ marginTop: '16px' }}>
                     Welcome to the Crime Reporting App! This application allows you to report crimes in your area quickly and easily.
                     Your reports help make the community safer and more aware of criminal activities.
                 </Typography>
