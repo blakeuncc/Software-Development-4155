@@ -1,0 +1,46 @@
+/* Ensure body and root take full height */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  
+  main {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.8;
+  }
+  
+  footer {
+    background-color: var(--dark);
+    color: white;
+    background-color: #3a3a85;
+    text-align: center;
+
+    margin-top: auto;
+    padding: 10px 15px;
+    position: fixed;
+    bottom: 0;
+    width: 100%; 
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }

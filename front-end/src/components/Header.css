@@ -1,0 +1,60 @@
+/* Header Styling */
+header {
+    background-color: #3a3a85;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  ul {
+    list-style: none;
+    margin-top: 5px; 
+    margin-bottom: 0px;
+    padding: 0;
+    display: flex;
+  }
+  
+  ul li {
+    margin-right: 20px;
+  }
+  
+  ul li:last-child {
+    margin-right: 0;
+  }
+  
+  a {
+    text-decoration: none;
+    color: #DBBFDB;
+    font-size: 1.2rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  a:hover {
+    color: #FD9E7E; 
+  }
+  
+  a.active {
+    border-bottom: 2px solid #f0a500;
+  }
+  
+  @media (max-width: 768px) {
+    ul {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    ul li {
+      margin-bottom: 10px;
+    }
+  
+    ul li:last-child {
+      margin-bottom: 0;
+    }
+  }
+  
