@@ -19,4 +19,11 @@
     <%- include('./partials/footer.ejs')%>
 
     // include scripting for getting form responses
+    <script>
+        document.getElementById('crime-report-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Report submitted! Thank you.');
+            this.reset(); 
+        });
+    </script>
         
