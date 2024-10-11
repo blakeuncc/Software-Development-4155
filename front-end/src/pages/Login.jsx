@@ -20,33 +20,33 @@ const Login = () => {
                             Login
                         </Typography>
                         <TextField
-                        label="Email"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <TextField
-                        label="Password"
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        onClick={handleLogin}
-                        style={{ marginTop: '16px' }}
-                    >
-                        Login
-                    </Button>
-                </Box>
-            </Container>
+                            label="Email"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <TextField
+                            label="Password"
+                            type="password"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            onClick={handleLogin}
+                            style={{ marginTop: '16px' }}
+                        >
+                            Login
+                        </Button>
+                    </Box>
+                </Container>
             </div>
             <div className="welcome-section">
                 <Typography variant="h3" color="white">
