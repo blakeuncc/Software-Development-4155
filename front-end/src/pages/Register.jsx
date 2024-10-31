@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import './Register.css'; // Your CSS for the registration page
-import Header from '../components/Header'; // Adjust the path based on your project structure
-import Footer from '../components/Footer'; // Adjust the path based on your project structure
+import Axios from 'axios';
+import './Register.css';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    fullName: '',
+    firstName: '',
+    lastName: '',
     email: '',
     phone: '',
     password: '',
@@ -19,50 +22,104 @@ const Register = () => {
     termsAccepted: false,
   });
 
+
+  const [feedbackMessage, setFeedbackMessage] = useState('');
+  const [feedbackType, setFeedbackType] = useState('');
+
+
+  // Update the handleChange function to handle nested fields in notificationPreferences
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    if (type === 'checkbox') {
+
+
+    if (['weather', 'traffic', 'publicSafety'].includes(name)) {
+      // Update specific notification preference
       setFormData({
         ...formData,
-        [name]: checked,
+        notificationPreferences: {
+          ...formData.notificationPreferences,
+          [name]: checked,
+        },
       });
     } else {
+      // Update other fields
       setFormData({
         ...formData,
-        [name]: value,
+        [name]: type === 'checkbox' ? checked : value,
       });
     }
   };
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+
+
+    if (formData.password !== formData.confirmPassword) {
+      setFeedbackMessage("Passwords do not match.");
+      setFeedbackType('error');
+      return;
+    }
+
+
+    try {
+      const response = await Axios.post('/users/register', {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        location: formData.location,
+        notificationPreferences: formData.notificationPreferences,
+        termsAccepted: formData.termsAccepted,
+      });
+
+
+      setFeedbackMessage(response.data.message || 'Registration successful!');
+      setFeedbackType('success');
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
+      setFeedbackMessage(errorMessage);
+      setFeedbackType('error');
+    }
   };
+
 
   return (
     <div>
-      {/* Include Header */}
       <Header />
-
       <div className="register-container">
         <h1>Create Your Account</h1>
         <p>Join CLTAlert and stay informed!</p>
 
+
         <form onSubmit={handleSubmit}>
-          {/* Full Name */}
           <div className="form-group">
-            <label htmlFor="fullName">Full Name</label>
+            <label htmlFor="firstName">First Name</label>
             <input
               type="text"
-              id="fullName"
-              name="fullName"
-              value={formData.fullName}
+              id="firstName"
+              name="firstName"
+              value={formData.firstName}
               onChange={handleChange}
               required
             />
           </div>
 
-          {/* Email Address */}
+
+          <div className="form-group">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              type="text"
+              id="lastName"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
             <input
@@ -75,7 +132,7 @@ const Register = () => {
             />
           </div>
 
-          {/* Phone Number */}
+
           <div className="form-group">
             <label htmlFor="phone">Phone Number (Optional)</label>
             <input
@@ -87,7 +144,7 @@ const Register = () => {
             />
           </div>
 
-          {/* Password */}
+
           <div className="form-group">
             <label htmlFor="password">Password</label>
             <input
@@ -100,7 +157,7 @@ const Register = () => {
             />
           </div>
 
-          {/* Confirm Password */}
+
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
@@ -113,7 +170,7 @@ const Register = () => {
             />
           </div>
 
-          {/* Location */}
+
           <div className="form-group">
             <label htmlFor="location">Location</label>
             <select
@@ -130,7 +187,7 @@ const Register = () => {
             </select>
           </div>
 
-          {/* Notification Preferences */}
+
           <div className="form-group">
             <label>Notification Preferences</label>
             <div>
@@ -164,7 +221,7 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Terms & Conditions */}
+
           <div className="form-group">
             <label>
               <input
@@ -178,15 +235,22 @@ const Register = () => {
             </label>
           </div>
 
-          {/* Submit Button */}
+
           <button type="submit" className="submit-button">Sign Up</button>
+
+
+          {feedbackMessage && (
+            <p style={{ color: feedbackType === 'success' ? 'green' : 'red' }}>
+              {feedbackMessage}
+            </p>
+          )}
         </form>
       </div>
-
-      {/* Include Footer */}
       <Footer />
     </div>
   );
 };
 
 export default Register;
+
+
