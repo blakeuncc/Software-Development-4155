@@ -20,8 +20,9 @@ const pages = [
   { label: 'Crime Map', path: '/Map' }
 ];
 const settings = [
-  { label: 'Sign Out', path: '/' },
-  { label: 'Login', path: '/Login' }
+  { label: 'Sign Out', path: '/Login' },
+  { label: 'Login', path: '/Login' },
+  { label: 'Register',path: '/Register' }
 ];
 
 function ResponsiveAppBar() {

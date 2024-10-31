@@ -17,6 +17,25 @@ const Home = () => {
                         Report an Incident
                     </button>
                 </a>
+
+                <section style={{ textAlign: 'center', marginTop: '20px' }}>
+                    <h2>Features</h2>
+                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+                        <li>Quick reporting of incidents</li>
+                        <li>Access to local crime map</li>
+                        <li>Emergency contact information</li>
+                    </ul>
+                </section>
+
+                <section style={{ textAlign: 'center', marginTop: '20px' }}>
+                    <h2>Stay Informed</h2>
+                    <p>Sign up for notifications about local incidents and safety tips!</p>
+                    <a href="/Register" style={{ textDecoration: 'none' }}>
+                        <button style={{ marginTop: '10px', padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
+                            Sign Up
+                        </button>
+                    </a>
+                </section>
             </main>
             <Footer />
         </div>
