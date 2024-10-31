@@ -8,6 +8,7 @@ mongoURI = 'mongodb+srv://cmendosalazn22:8UTFOIiJCBoYLTqC@mydb.nji1g.mongodb.net
 //connect to database
 mongoose.connect(mongoURI)
     .then(() => {
+        console.log("Connected to MongoDB");
         app.listen(PORT, () => {
             console.log(`Server is running on http://localhost:${PORT}`);
         });
@@ -20,6 +21,11 @@ app.get('/api/endpoint', (req, res) => {
     console.log("Endpoint was hit");
     res.status(200).json({ message: "Hello from the back-end!" });
 })
+
+app.get('/', (req, res) => {
+    res.send("Welcome! The server is running, but there’s no content here.");
+});
+
 
 
 app.use('/users', userRoutes);
