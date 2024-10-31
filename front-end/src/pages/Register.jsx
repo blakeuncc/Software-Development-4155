@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import Axios from 'axios';
 import './Register.css';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -75,15 +78,21 @@ const Register = () => {
       });
 
 
+      // Show success message
       setFeedbackMessage(response.data.message || 'Registration successful!');
       setFeedbackType('success');
+
+      // Redirect to login page after 2 seconds
+      setTimeout(() => {
+        navigate('/Login'); 
+      }, 2000);
+
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
       setFeedbackMessage(errorMessage);
       setFeedbackType('error');
     }
   };
-
 
   return (
     <div>
@@ -183,7 +192,6 @@ const Register = () => {
               <option value="">Select your city</option>
               <option value="Charlotte">Charlotte</option>
               <option value="Raleigh">Raleigh</option>
-              {/* Add more cities */}
             </select>
           </div>
 
