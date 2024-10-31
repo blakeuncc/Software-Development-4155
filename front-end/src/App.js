@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login.jsx';
 import Contact from './pages/Contact.jsx';
@@ -7,7 +7,11 @@ import Home from './pages/Home.jsx';
 import Map from './pages/Map.jsx';
 import Register from './pages/Register';
 
+
 const App = () => {
+  const [user, setUser] = useState(null);
+
+
   return (
     <Router>
       <Routes>
@@ -17,10 +21,14 @@ const App = () => {
         <Route path="/Contact" element={<Contact />} />
         <Route path="/Report" element={<Report />} />
         <Route path="/Map" element={<Map />} />
-        <Route path="/Register" element={<Register />} />
+        <Route
+          path="/Register"
+          element={<Register setUser={setUser} />} // Pass setUser to Register for updating user state after registration
+        />
       </Routes>
     </Router>
   );
 };
+
 
 export default App;
