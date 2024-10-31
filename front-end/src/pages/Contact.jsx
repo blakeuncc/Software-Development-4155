@@ -20,9 +20,9 @@ const Contact = () => {
 
         <h1>National Hotlines</h1>
         <ul>
-          <li><strong>Domestic Violence Hotline:</strong> 1-800-799-7233</li>
-          <li><strong>National Suicide Prevention Lifeline:</strong> 1-800-273-8255</li>
-          <li><strong>Substance Abuse Helpline:</strong> 1-800-662-HELP (4357)</li>
+          <li><a href='https://www.thehotline.org/'><strong>Domestic Violence Hotline:</strong></a> 1-800-799-7233</li>
+          <li><a href='https://988lifeline.org/'><strong>National Suicide Prevention Lifeline:</strong></a> 1-800-273-8255</li>
+          <li><a href='https://www.usa.gov/substance-abuse'><strong>Substance Abuse Helpline:</strong></a> 1-800-662-HELP (4357)</li>
         </ul>
 
         <p>Always remember to stay safe and reach out for help when needed.</p>
