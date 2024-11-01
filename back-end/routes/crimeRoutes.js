@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Crime = require('../models/crimeModels'); // Import your Crime model
 const { createReport } = require('../controller/crimeController');
+const { submitReport } = require('../controller/crimeController');
 
 // GET route to fetch all crime reports
 router.get('/crime-reports', async (req, res) => {
@@ -27,5 +28,5 @@ router.post('/crime-reports', async (req, res) => {
         res.status(500).json({ message: 'Failed to add new crime report', error });
     }
 });
-router.post('/reports', createReport);
+
 module.exports = router;

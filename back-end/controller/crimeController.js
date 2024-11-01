@@ -1,5 +1,6 @@
 // crimeController.js
 const Report = require('../models/Report'); // Adjust the path based on where your models are located
+const CrimeReport = require('../models/crimeModels');
 
 // Function to handle the creation of a new crime report
 const createReport = async (req, res) => {
@@ -28,4 +29,14 @@ const createReport = async (req, res) => {
 
 module.exports = {
     createReport,
+};
+exports.submitReport = async (req, res) => {
+    try {
+        const { name, email, description, location } = req.body;
+        const newReport = new CrimeReport({ name, email, description, location });
+        await newReport.save();
+        res.status(201).json({ message: "Report submitted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Failed to submit report", error: error.message });
+    }
 };
