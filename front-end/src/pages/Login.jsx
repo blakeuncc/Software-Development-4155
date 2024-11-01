@@ -1,26 +1,36 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
-// change css to the pic
 const Login = () => {
+    const navigate = useNavigate(); // For redirecting after successful login
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [feedbackMessage, setFeedbackMessage] = useState('');
     const [feedbackType, setFeedbackType] = useState('');
 
-    const handleLogin = () => {
-        // Handle login logic here (e.g., API call)
-        if (email === 'user@example.com' && password === 'password') {
-            setFeedbackMessage('Login successful!');
+    const handleLogin = async () => {
+        try {
+            // Send POST request to the back-end login endpoint
+            const response = await Axios.post('/users/login', { email, password });
+
+            // If login is successful
+            setFeedbackMessage(response.data.message || 'Login successful!');
             setFeedbackType('success');
-        } else if (email === 'locked@example.com') {
-            // Simulate account lockout scenario
-            setFeedbackMessage('Your account is locked. Please contact support.');
-            setFeedbackType('error');
-        } else {
-            // Simulate incorrect credentials
-            setFeedbackMessage('Incorrect email or password.');
+
+            // Store token in localStorage or a cookie if you need to remember the user
+            localStorage.setItem('token', response.data.token);
+
+            // Redirect to home or dashboard page after successful login
+            setTimeout(() => {
+                navigate('/home'); // Replace '/home' with your desired page
+            }, 1500);
+        } catch (error) {
+            // Handle login errors
+            const errorMessage = error.response?.data?.message || 'Incorrect email or password.';
+            setFeedbackMessage(errorMessage);
             setFeedbackType('error');
         }
     };
@@ -34,39 +44,39 @@ const Login = () => {
                             Login
                         </Typography>
                         <TextField
-                        label="Email"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <TextField
-                        label="Password"
-                        type="password"
-                        variant="outlined"
-                        fullWidth
-                        margin="normal"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        onClick={handleLogin}
-                        style={{ marginTop: '16px' }}
-                    >
-                        Login
-                    </Button>
+                            label="Email"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <TextField
+                            label="Password"
+                            type="password"
+                            variant="outlined"
+                            fullWidth
+                            margin="normal"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            onClick={handleLogin}
+                            style={{ marginTop: '16px' }}
+                        >
+                            Login
+                        </Button>
                         <Button
                             variant="contained"
                             color="secondary"
                             fullWidth
-                            onClick={() => console.log('Register button clicked')}
+                            onClick={() => navigate('/register')} // Redirect to registration page
                             style={{ marginTop: '16px' }}
-                            >
-                        Register
+                        >
+                            Register
                         </Button>
                         {feedbackMessage && (
                             <Typography
@@ -81,7 +91,7 @@ const Login = () => {
                             </Typography>
                         )}
                     </Box>
-            </Container>
+                </Container>
             </div>
             <div className="welcome-section">
                 <Typography variant="h3" color="black">
