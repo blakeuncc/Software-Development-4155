@@ -3,6 +3,8 @@ const app = express();
 const userRoutes = require('./routes/userRoutes');
 const PORT = process.env.PORT || 5000;
 const mongoose = require('mongoose');
+const crimeRoutes = require('./routes/crimeRoutes');
+
 
 mongoURI = 'mongodb+srv://cmendosalazn22:8UTFOIiJCBoYLTqC@mydb.nji1g.mongodb.net/CLTAlertDB?retryWrites=true&w=majority&appName=MyDB'
 //connect to database
@@ -28,8 +30,15 @@ app.get('/', (req, res) => {
 
 app.use('/users', userRoutes);
 
-const crimeRoutes = require('./routes/crimeRoutes');
-app.use('/api', crimeRoutes);
+app.use(express.json());
+app.use('/api/crimes', crimeRoutes);
+mongoose.connect('mongodb+srv://<username>:<password>@mydb.njil1g.mongodb.net/CLTAlertDB', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => console.log('Connected to MongoDB'))
+    .catch(error => console.error('MongoDB connection error:', error));
 
+app.listen(3000, () => console.log('Server running on port 3000'));
 
 module.exports = app;
