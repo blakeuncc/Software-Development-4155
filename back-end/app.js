@@ -26,9 +26,10 @@ app.get('/', (req, res) => {
     res.send("Welcome! The server is running, but there’s no content here.");
 });
 
-
-
 app.use('/users', userRoutes);
+
+const crimeRoutes = require('./routes/crimeRoutes');
+app.use('/api', crimeRoutes);
 
 
 module.exports = app;

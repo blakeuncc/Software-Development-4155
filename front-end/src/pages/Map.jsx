@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Map.css'; // Assuming you have a CSS file for map-specific styles
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 
@@ -26,6 +26,24 @@ const Map = () => {
     googleMapsApiKey: 'AIzaSyA_o5Ah2wjZbvqvReo17iLHBVXmoCVby-0', // Replace with your actual API key
   });
 
+  const [crimeReports, setCrimeReports] = useState([]);
+
+// Fetch crime data
+  useEffect(() => {
+    const fetchCrimeReports = async () => {
+      try {
+        const response = await fetch('/api/crime-reports'); // Adjust endpoint if necessary
+        const data = await response.json();
+        console.log("Fetched crime reports:", data);
+        setCrimeReports(data);
+      } catch (error) {
+        console.error("Error fetching crime reports:", error);
+      }
+    };
+
+    fetchCrimeReports();
+  }, []);
+
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading Maps...</div>;
 
@@ -47,6 +65,16 @@ const Map = () => {
             options={options}
           >
             <Marker position={center} />
+            {Array.isArray(crimeReports) && crimeReports.map((report) => (
+                <Marker
+                    key={report._id}
+                    position={{
+                      lat: report.location.lat,
+                      lng: report.location.lng,
+                    }}
+                    title={report.title} // Optional: shows title on hover
+                />
+            ))}
           </GoogleMap>
         </div>
       </div>
