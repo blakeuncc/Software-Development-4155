@@ -22,7 +22,8 @@ const pages = [
 const settings = [
   { label: 'Sign Out', path: '/Login' },
   { label: 'Login', path: '/Login' },
-  { label: 'Register',path: '/Register' }
+  { label: 'Register',path: '/Register' },
+  { label: 'Profile', path: '/Profile' }
 ];
 
 function ResponsiveAppBar() {

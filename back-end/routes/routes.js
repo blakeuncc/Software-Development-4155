@@ -29,5 +29,10 @@ router.get('/community-forums', (req, res) => {
     res.send('Community Forums Page');
 });
 
+// route for progile page
+router.get('/profile', (req, res) => {
+    res.send('Users will be able to view their profile here');
+})
+
 
 module.exports = router;
