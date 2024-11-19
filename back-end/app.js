@@ -7,12 +7,12 @@ const crimeRoutes = require('./routes/crimeRoutes');
 const cors = require('cors');
 
 app.use(cors({
-    origin: 'http://localhost:3000', // frontend URL
+    origin: 'http://localhost:3001', // frontend URL
     credentials: true
 }));
+app.use(express.json());
 
-
-mongoURI = 'mongodb+srv://cmendosalazn22:8UTFOIiJCBoYLTqC@mydb.nji1g.mongodb.net/CLTAlertDB?retryWrites=true&w=majority&appName=MyDB'
+mongoURI = 'mongodb+srv://user-2:eK1ba6dlVpXDI9XU@mydb.nji1g.mongodb.net/CLTAlertDB?retryWrites=true&w=majority&appName=MyDB'
 //connect to database
 mongoose.connect(mongoURI)
     .then(() => {
@@ -23,23 +23,18 @@ mongoose.connect(mongoURI)
     })
     .catch(err => console.log(err.message));
 
-app.use(express.json());
 
-app.get('/api/endpoint', (req, res) => {
+
+/*app.get('/api/endpoint', (req, res) => {
     console.log("Endpoint was hit");
     res.status(200).json({ message: "Hello from the back-end!" });
-})
+}) */
 
 app.get('/', (req, res) => {
     res.send("Welcome! The server is running, but there’s no content here.");
 });
 
 app.use('/users', userRoutes);
-
-app.use(express.json());
 app.use('/api/crimes', crimeRoutes);
-
-
-app.listen(3000, () => console.log('Server running on port 3000'));
 
 module.exports = app;

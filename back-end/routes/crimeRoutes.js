@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Crime = require('../models/crimeModels'); // Import your Crime model
 const { createReport } = require('../controller/crimeController');
-const { submitReport } = require('../controller/crimeController');
+
 
 // GET route to fetch all crime reports
 router.get('/crime-reports', async (req, res) => {
@@ -13,7 +13,7 @@ router.get('/crime-reports', async (req, res) => {
         res.status(500).json({ message: 'Failed to retrieve crime reports' });
     }
 });
-
+router.post('/create', createReport);
 router.post('/crime-reports', async (req, res) => {
     try {
         const { title, location, date } = req.body; // Expecting title, location, and date in the request body

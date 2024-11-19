@@ -14,7 +14,7 @@ const createReport = async (req, res) => {
             email,
             description,
             location,
-            date: new Date(), // Add a date field to record when the report was created
+            // Add a date field to record when the report was created
         });
 
         // Save the report to the database
@@ -29,14 +29,4 @@ const createReport = async (req, res) => {
 
 module.exports = {
     createReport,
-};
-exports.submitReport = async (req, res) => {
-    try {
-        const { name, email, description, location } = req.body;
-        const newReport = new CrimeReport({ name, email, description, location });
-        await newReport.save();
-        res.status(201).json({ message: "Report submitted successfully" });
-    } catch (error) {
-        res.status(500).json({ message: "Failed to submit report", error: error.message });
-    }
 };
