@@ -1,10 +1,10 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
-const bcrypt = require('bcryptjs'); 
-const jwt = require('jsonwebtoken'); 
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { app, connectDB } = require('../app');
-const User = require('../models/User');
+const User = require('../models/user');
 
 const JWT_SECRET = 'c45892c8b38d6f209e7eeb478dcbf9a4d150287b9a72634da79ddc7e2c285e7b9fd08be2ee9cfc9aac4f95f80e485b72a653f8912f0b9af952f9a216c6ba7d52'; // Same as in your userController.js
 
@@ -67,16 +67,16 @@ describe('User Routes', () => {
             firstName: 'John',
             lastName: 'Doe',
             email: 'john.doe@example.com',
-            password: 'Password123!', 
+            password: 'Password123!',
             location: 'Charlotte, NC',
             termsAccepted: true,
         });
-        await user.save(); 
+        await user.save();
 
         // Login request
         const loginDetails = {
             email: 'john.doe@example.com',
-            password: 'Password123!', 
+            password: 'Password123!',
         };
 
         const res = await request(app).post('/users/login').send(loginDetails);
@@ -85,7 +85,7 @@ describe('User Routes', () => {
         // Assertions
         expect(res.statusCode).toEqual(200);
         expect(res.body.message).toBe('Login successful');
-        expect(res.body.token).toBeTruthy(); 
+        expect(res.body.token).toBeTruthy();
         expect(res.body.user).toHaveProperty('id');
         expect(res.body.user.email).toBe('john.doe@example.com');
 
