@@ -9,28 +9,41 @@ const Report = () => {
   const [email, setEmail] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
-  const [date, setDate] = useState(new Date()); // Define the date if needed
+  const [date, setDate] = useState(new Date());
 
-  const submitReport = async () => {
+  const submitReport = async (e) => {
+    e.preventDefault(); // Prevent default form submission
     try {
       const response = await axios.post('http://localhost:5000/api/crime-reports', {
+
         name,
         email,
         description,
-        location,
-        date
+        location: {
+          address: location,
+          lat: 0,
+          lng: 0
+        },
+        date: date || new Date()
       });
-      console.log('Report submitted:', response.data);
-      // Optional: set feedback message here if you plan to use it
+      if (response.status === 201) {
+        console.log('Report submitted:', response.data);
+      }
+      // Clear form
+      setName('');
+      setEmail('');
+      setDescription('');
+      setLocation('');
+      alert('Report submitted successfully!');
     } catch (error) {
-      console.error('Error submitting report:', error);
-      // Optional: set error feedback message here
+      console.error('Error submitting report:', error.response || error.message);
+      alert('Error submitting report. Please try again.');
     }
   };
 
   return (
       <>
-      <Header />
+        <Header />
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '75vh', backgroundColor: '#ffffff' }}>
           <div style={{ width: '400px', padding: '20px 40px', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#f0f0f0', boxSizing: 'border-box' }}>
             <h2 style={{ textAlign: 'center', color: '#333' }}>Report Incident</h2>
@@ -94,8 +107,8 @@ const Report = () => {
             </form>
           </div>
         </div>
-      <Footer />
-     </>
+        <Footer />
+      </>
   );
 };
 

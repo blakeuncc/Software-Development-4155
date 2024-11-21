@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Map.css'; // Assuming you have a CSS file for map-specific styles
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import axios from 'axios';
 
 // Importing Header and Footer components
 import Header from '../components/Header'; // Adjust the path as needed
@@ -32,10 +33,11 @@ const Map = () => {
   useEffect(() => {
     const fetchCrimeReports = async () => {
       try {
-        const response = await fetch('/api/crime-reports'); // Adjust endpoint if necessary
-        const data = await response.json();
-        console.log("Fetched crime reports:", data);
-        setCrimeReports(data);
+        const response = await axios.get('http://localhost:5000/api/crime-reports'); // Adjust endpoint if necessary
+        //const data = await response.json();
+        console.log("Fetched crime reports:", response.data);
+        setCrimeReports(response.data);
+        //setMarkers(data);
       } catch (error) {
         console.error("Error fetching crime reports:", error);
       }
@@ -64,20 +66,20 @@ const Map = () => {
             center={center}
             options={options}
           >
-            <Marker position={center} />
             {Array.isArray(crimeReports) && crimeReports.map((report) => (
-                <Marker
-                    key={report._id}
-                    position={{
-                      lat: report.location.lat,
-                      lng: report.location.lng,
-                    }}
-                    title={report.title} // Optional: shows title on hover
-                />
-            ))}
-          </GoogleMap>
+                  <Marker
+                      key={report.id}
+                      position={{
+                        lat: report.location.lat,
+                        lng: report.location.lng,
+                      }}
+                      title={report.description} // Optional: shows title on hover
+                      onClick={() => alert(`Crime Report: ${report.description}`)}
+                  />
+              ))}
+            </GoogleMap>
+          </div>
         </div>
-      </div>
 
       {/* Render the Footer */}
       <Footer />

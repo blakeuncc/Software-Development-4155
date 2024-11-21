@@ -7,7 +7,8 @@ const crimeRoutes = require('./routes/crimeRoutes');
 const cors = require('cors');
 
 app.use(cors({
-    origin: 'http://localhost:3001', // frontend URL
+    origin: 'http://localhost:3000', // frontend URL
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true
 }));
 app.use(express.json());
@@ -35,6 +36,6 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', userRoutes);
-app.use('/api/crimes', crimeRoutes);
+app.use('/api', crimeRoutes);
 
 module.exports = app;
