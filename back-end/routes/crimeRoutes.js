@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Report = require('../models/Report');
 const crimeController = require('../controller/crimeController');
-const { createReport} = require('../controller/crimeController');
+//const { createReport} = require('../controller/crimeController');
 
 
 // GET route to fetch all crime reports
