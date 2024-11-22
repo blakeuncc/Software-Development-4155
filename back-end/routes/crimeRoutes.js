@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-//const Crime = require('../models/crimeModels'); // Import your Crime model
 const Report = require('../models/Report');
 const crimeController = require('../controller/crimeController');
 const { createReport} = require('../controller/crimeController');
@@ -9,14 +8,14 @@ const { createReport} = require('../controller/crimeController');
 // GET route to fetch all crime reports
 router.get('/crime-reports', async (req, res) => {
     try {
-        const reports = await Report.find({}, 'title location date'); // Fetch only necessary fields
+        const reports = await Report.find({}, ); // Fetch all da fields
         res.json(reports);
     } catch (err) {
         res.status(500).json({ message: 'Failed to retrieve crime reports' });
     }
 });
 router.post('/crime-reports', crimeController.createReport);
-router.post('/crime-reports', async (req, res) => {
+/* router.post('/crime-reports', async (req, res) => {
     try {
         const { name, email, description, location, date } = req.body;
         const newReport = new Report({
@@ -35,6 +34,6 @@ router.post('/crime-reports', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: 'Failed to add new crime report', error });
     }
-});
+}); */
 
 module.exports = router;

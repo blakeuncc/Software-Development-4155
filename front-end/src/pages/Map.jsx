@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import './Map.css'; // Assuming you have a CSS file for map-specific styles
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import './Map.css';
+import { GoogleMap, useLoadScript, MarkerF, InfoWindowF } from '@react-google-maps/api';
 import axios from 'axios';
-
-// Importing Header and Footer components
-import Header from '../components/Header'; // Adjust the path as needed
-import Footer from '../components/Footer'; // Adjust the path as needed
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const mapContainerStyle = {
   width: '100%',
-  height: '100%', // Height controlled by CSS
+  height: '600px',
 };
 
 const center = {
-  lat: 35.2271, // Latitude for Charlotte, NC
-  lng: -80.8431, // Longitude for Charlotte, NC
+  lat: 35.2271,
+  lng: -80.8431,
 };
 
 const options = {
@@ -24,20 +22,18 @@ const options = {
 
 const Map = () => {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyA_o5Ah2wjZbvqvReo17iLHBVXmoCVby-0', // Replace with your actual API key
+    googleMapsApiKey: 'AIzaSyA_o5Ah2wjZbvqvReo17iLHBVXmoCVby-0',
   });
 
   const [crimeReports, setCrimeReports] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState(null);
 
-// Fetch crime data
   useEffect(() => {
     const fetchCrimeReports = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/crime-reports'); // Adjust endpoint if necessary
-        //const data = await response.json();
+        const response = await axios.get('http://localhost:5000/api/crime-reports');
         console.log("Fetched crime reports:", response.data);
         setCrimeReports(response.data);
-        //setMarkers(data);
       } catch (error) {
         console.error("Error fetching crime reports:", error);
       }
@@ -46,44 +42,81 @@ const Map = () => {
     fetchCrimeReports();
   }, []);
 
+  const handleMarkerClick = (report) => {
+    setSelectedMarker(report);
+  };
+
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading Maps...</div>;
 
   return (
-    <div>
-      {/* Render the Header */}
-      <Header />
+      <div>
+        <Header />
+        <div className="map-container">
+          <h1>Crime Map</h1>
+          <p>Click on markers to view crime incident details.</p>
 
-      {/* Main content */}
-      <div className="map-container">
-        <h1>Crime Map</h1>
-        <p>This page will display a map with crime incidents in the area.</p>
-
-        <div className="google-map-container">
-          <GoogleMap
-            mapContainerStyle={mapContainerStyle}
-            zoom={12}
-            center={center}
-            options={options}
-          >
-            {Array.isArray(crimeReports) && crimeReports.map((report) => (
-                  <Marker
-                      key={report.id}
+          <div className="google-map-container" style={{ position: 'relative', height: '600px' }}>
+            <GoogleMap
+                mapContainerStyle={mapContainerStyle}
+                zoom={12}
+                center={center}
+                options={options}
+                onClick={() => setSelectedMarker(null)}
+            >
+              {Array.isArray(crimeReports) && crimeReports.map((report) => (
+                  <MarkerF
+                      key={report._id}
                       position={{
                         lat: report.location.lat,
                         lng: report.location.lng,
                       }}
-                      title={report.description} // Optional: shows title on hover
-                      onClick={() => alert(`Crime Report: ${report.description}`)}
+                      onClick={() => handleMarkerClick(report)}
                   />
               ))}
+
+              {selectedMarker && (
+                  <InfoWindowF
+                      position={{
+                        lat: selectedMarker.location.lat,
+                        lng: selectedMarker.location.lng,
+                      }}
+                      onCloseClick={() => setSelectedMarker(null)}
+                  >
+                    <div style={{
+                      padding: '15px',
+                      minWidth: '250px',
+                    }}>
+                      <h3 style={{
+                        margin: '0 0 10px 0',
+                        textAlign: 'center',
+                        borderBottom: '1px solid #ccc',
+                        paddingBottom: '5px'
+                      }}>
+                        Crime Report
+                      </h3>
+                      <div style={{ marginBottom: '10px' }}>
+                        <strong>Description:</strong>
+                        <p style={{ margin: '5px 0' }}>{selectedMarker.description}</p>
+                      </div>
+                      <div style={{ marginBottom: '10px' }}>
+                        <strong>Location:</strong>
+                        <p style={{ margin: '5px 0' }}>{selectedMarker.location.address}</p>
+                      </div>
+                      <div>
+                        <strong>Reported:</strong>
+                        <p style={{ margin: '5px 0' }}>
+                          {new Date(selectedMarker.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                  </InfoWindowF>
+              )}
             </GoogleMap>
           </div>
         </div>
-
-      {/* Render the Footer */}
-      <Footer />
-    </div>
+        <Footer />
+      </div>
   );
 };
 
